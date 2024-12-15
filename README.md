@@ -72,7 +72,7 @@ exit
 
 Edit `docker-compose.yaml` again and remove the line with `command` you added earlier.
 
-*Note: you will need to do the above every time your cached credentials has expired and you (re)start the container*
+*Note: you will probably need to do the above every time your cached credentials has expired and you (re)start the container*
 
 ## Getting the invite code
 
@@ -88,7 +88,7 @@ Next, find the folder with the dedicated server executable on your PC. You can d
 
 Now insert the value in the `docker-compose.yaml` as the value of the `inviteseed` variable.
 
-*Note: you will need to do the above every time your session has expired*
+*Note: you will probably need to do the above every time your session has expired*
 
 ## Starting the server
 
