@@ -1,0 +1,16 @@
+services:
+  moria:
+    image: andrewsav/moria
+    container_name: moria
+    restart: unless-stopped
+    init: true
+    network_mode: bridge
+    environment:
+      steamuser: anonymous
+      inviteseed:
+    volumes:
+      - './data:/mnt/moria/server/Moria/Saved'
+      - './server:/mnt/moria/server'
+      - './steam:/root/Steam'
+    ports:
+      - '7777:7777/udp'
