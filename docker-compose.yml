@@ -3,8 +3,7 @@ services:
     image: andrewsav/moria
     container_name: moria
     restart: unless-stopped
-    init: true
-    network_mode: bridge
+    stop_signal: SIGINT
     environment:
       steamuser: anonymous
       inviteseed:
