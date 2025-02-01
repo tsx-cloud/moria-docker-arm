@@ -3,7 +3,7 @@
 [![GitHub Actions](https://github.com/AndrewSav/moria-docker/actions/workflows/main.yml/badge.svg)](https://github.com/AndrewSav/moria-docker/actions)
 [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/andrewsav/moria?sort=semver)](https://hub.docker.com/r/andrewsav/moria/tags)
 
-This is not an official project and I'm not affiliated with developers or publishers of the the game.
+This is not an official project and I'm not affiliated with developers or publishers of the game.
 
 **As of the time of writing this is an early alpha of the Dedicated Server, and this impacts how this docker image is setup. I hope that quite a few things will change as the Alpha progresses.**
 
@@ -27,8 +27,7 @@ This is not an official project and I'm not affiliated with developers or publis
 
 | Volume             | Container path              | Description                             |
 | -------------------- | ----------------------------- | ----------------------------------------- |
-| Saves & settings | /mnt/moria/server/Moria/Saved | server logs and saves |
-| Steam install path | /mnt/moria/server     | the server files are downloaded into this directory, and settings files are created here on the first start |
+| Steam install path | /server   | the server files are downloaded into this directory, and settings files are created here on the first start. server logs and saves are located under /server/Moria/Saved |
 | Steam cache | /root/Steam | This is where Steam credentials are cached by steam, so they do not need to be entered on each restart |
 
 ## Authentication
@@ -116,9 +115,13 @@ Edit the files to your liking and restart the containers:
 docker compose up -d --force-recreate
 ```
 
-Logs are found in `./data/Logs/` directory, and Saves are in ` ./data/SaveGamesDedicated/` directory.
+Logs are found in `./server/Moria/Saved/Logs/` directory, and Saves are in ` ./server/Moria/Saved/SaveGamesDedicated/` directory.
 
 You can now connect to your server from the game (providing that the port forwarding is set up correctly).
+
+## About this docker image
+
+See [APPROACH.md](APPROACH.md)
 
 ## Credits
 

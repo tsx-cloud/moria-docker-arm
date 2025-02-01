@@ -8,8 +8,7 @@ services:
       steamuser: anonymous
       inviteseed:
     volumes:
-      - './data:/mnt/moria/server/Moria/Saved'
-      - './server:/mnt/moria/server'
+      - './server:/server'
       - './steam:/root/Steam'
     ports:
       - '7777:7777/udp'
