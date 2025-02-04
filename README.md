@@ -119,6 +119,10 @@ Logs are found in `./server/Moria/Saved/Logs/` directory, and Saves are in ` ./s
 
 You can now connect to your server from the game (providing that the port forwarding is set up correctly).
 
+## Updating the server
+
+Restart the container. It will check steam for the newer server version on start and update if required. My preferred method of restarting is running `docker compose up -d --force-recreate` but simple `docker restart moria` would suffice. 
+
 ## About this docker image
 
 See [APPROACH.md](APPROACH.md)
