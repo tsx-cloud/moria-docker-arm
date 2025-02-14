@@ -3,7 +3,7 @@ services:
     image: andrewsav/moria
     container_name: moria
     restart: unless-stopped
-    stop_signal: SIGINT
+    stop_signal: SIGINT # This is for graceful termination, do not change it, unless you know what you are doing
     volumes:
       - './server:/server'
       - './steam:/root/Steam'
