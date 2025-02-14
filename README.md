@@ -60,6 +60,8 @@ Restart the container. It will check steam for the newer server version on start
 
 ## Getting the invite code
 
+**In most cases you do not need this, because you can join to the server directly via address/port as above.**
+
 The invite code for the game are printed by the dedicated server to a separate Windows console window which is not available in the docker container running without X. Because of this, to bootstrap the session a Windows machine with the dedicated server will be required to get the invite seed from.
 
 For this you are going to need a windows PC with steam. Run the Dedicated Server there as per [official instructions](https://www.returntomoria.com/news-updates/dedicated-server). Once your server is running you will see a console window with the invite code.
