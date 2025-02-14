@@ -4,9 +4,6 @@ services:
     container_name: moria
     restart: unless-stopped
     stop_signal: SIGINT
-    environment:
-      steamuser: anonymous
-      inviteseed:
     volumes:
       - './server:/server'
       - './steam:/root/Steam'
