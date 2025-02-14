@@ -12,7 +12,7 @@ This is not an official project and I'm not affiliated with developers or publis
 | ------------------------ | ------ |
 | 7777                | UDP  |
 
-In order for other to connect to your server you will most likely need to configure port forwarding on your router.
+In order for others to connect to your server you will most likely need to configure port forwarding on your router.
 
 ## Volumes
 
@@ -46,9 +46,11 @@ Edit the files to your liking and restart the containers:
 docker compose up -d --force-recreate
 ```
 
-Logs are found in `./server/Moria/Saved/Logs/` directory, and Saves are in ` ./server/Moria/Saved/SaveGamesDedicated/` directory.
+Logs are found in `./server/Moria/Saved/Logs/` directory, and Saves are in `./server/Moria/Saved/SaveGamesDedicated/` directory.
 
 You can now connect to your server from the game (providing that the port forwarding is set up correctly).
+
+*Note: read the official notes linked at the top of this README, they will tell you how to set up a password, copy the game world from your single player playthrough and more*
 
 ## Connecting to the server
 

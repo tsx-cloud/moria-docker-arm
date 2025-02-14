@@ -19,7 +19,7 @@ There are two cases where I think it's warranted to use environment variables in
 
 ### Care about start up time
 
-I've seen containers that pull dependencies on each start up, where it's not really required and just adds to the startup time. I prefer to keep those in the base image. At the same time there is a lot of value of updating the game on the start up, the check usually is reasonably quick, but updating also means we need to create a new image each time the developers release a new game version, so I think this is a reasonable compromise.
+I've seen containers that pull dependencies on each start up, where it's not really required and just adds to the startup time. I prefer to keep those in the base image. At the same time there is a lot of value of updating the game on the start up, the check usually is reasonably quick, but updating also means we do not need to create a new image each time the developers release a new game version, so I think this is a reasonable compromise.
 
 ### Allow container re-creation without data loss
 
@@ -33,10 +33,10 @@ In the realm of steam games running on wine, this is quite tricky. Still where p
 
 Do not use `EXPOSE` - this is for "documentation" purposes only, but I usually provide documentation with the image - the user does not have to look up `EXPOSE` in the `Dockerfile` this information is available with the rest of the documentation. 
 
-Do not create variables and don't try to make things "reusable" if you have only three file under 40 lines each. Search and replace works well if you need to change several spots, and having the actual value on the line you are reading is usually more helpful, then need to look up where the variable was set.
+Do not create variables and don't try to make things "reusable" if you have only three files under 40 lines each. Search and replace works well if you need to change several spots, and having the actual value on the line you are reading is usually more helpful, then need to look up where the variable was set.
 
 _Note: I'm obviously not against variables, programming would be impossible without them, but for the context of such tiny projects readability is more important for easier maintenance_
 
 ### Do not complicate setup by supporting non-root scenarios
 
-Some people insist that running your docker containers as root is "insecure". They are right. However for a dedicated server it hardly matters. Running with root is bad, because once your image is compromised, lateral movement becomes much easier. With a gaming server the worst that can happen though, is that the attacker will be able to run some crypto miner on your VM, and while unpleasant is not the end of the word. If that happens you scrape your VM and create a new one (and also patch the vulnerability that allowed that).
+Some people insist that running your docker containers as root is "insecure". They are right. However for a dedicated server it hardly matters. Running with root is bad, because once your image is compromised, lateral movement becomes much easier. With a gaming server the worst that can happen though, is that the attacker will be able to run some crypto miner on your VM, and while unpleasant is not the end of the world. If that happens you scrape your VM and create a new one (and also patch the vulnerability that allowed that).
