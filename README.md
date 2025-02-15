@@ -66,15 +66,14 @@ Restart the container. It will check steam for the newer server version on start
 
 *Note: currently there is a bug that prevents `./server/Moria/Saved/Config/Status.json` from updating. Once fixed, the below will no longer be necessary, since the invite code will be able to be looked up in that file*
 
-The invite code for the game are printed by the dedicated server to a separate Windows console window which is not available in the docker container running without X. Because of this, to bootstrap the session a Windows machine with the dedicated server will be required to get the invite seed from.
+The invite *code* for the game are printed by the dedicated server to a separate Windows console window which is not available in the docker container running without X. Because of this, to bootstrap the session a Windows machine with the dedicated server will be required to get the invite *seed* from.
 
-For this you are going to need a windows PC with steam. Run the Dedicated Server there as per [official instructions](https://www.returntomoria.com/news-updates/dedicated-server). Once your server is running you will see a console window with the invite code.
+*Note: invite code and in invite seed are different things. You use invite code in game to join, and invite seed is a value corresponding to the invite code from `InviteSeed.cfg`*
 
-Type `exit` and press enter.
-
-Next, find the folder with the dedicated server executable on your PC. You can do it from your steam client, by right-clicking on the dedicated server and selecting "Manage > Browse Local Files" from the menu. Go to `Moria/Saved/Config` subfolder and look for the `InviteSeed.cfg` file. Open the file in editor of your choice and copy the value from it.
-
-On your dedicated server, stop the server, create file named `./server/Moria/Saved/Config/InviteSeed.cfg` and put the copied value there and a new line. Save and start the server. Now you should be able to use the invite code to join.
+1. On a windows PC with steam, Run the Dedicated Server there as per [official instructions](https://www.returntomoria.com/news-updates/dedicated-server). Once your server is running you will see a console window with the invite code. (Usually starts with `D-`). Copy it, this is what you will be using for joining the game, once you copy the invite seed to your docker container.
+2. Still on windows PC, type `exit` in the console and press enter. Wait for the Dedicated Server to shut down
+3. Still on windows PC, find the folder with the dedicated server executable on your PC. You can do it from your steam client, by right-clicking on the dedicated server and selecting "Manage > Browse Local Files" from the menu. Go to `Moria/Saved/Config` subfolder and look for the `InviteSeed.cfg` file. Open the file in editor of your choice and copy the invite seed value from it. It's a single line value, usually starting with `0`.
+4. On your dedicated server running in a docker container, stop the server (`docker compose down`), create file named `./server/Moria/Saved/Config/InviteSeed.cfg` (if not already there) and put the copied invite seed value there and a new line in the end. The file should consist of a single line with the invite seed, with a newline at the end. Save the file and start the container (`docker compose up -d`). Now you should be able to use the invite code from step 1 to join.
 
 ## About this docker image
 
