@@ -9,3 +9,5 @@ services:
       - './steam:/root/Steam'
     ports:
       - '7777:7777/udp'
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t

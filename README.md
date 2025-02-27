@@ -36,7 +36,27 @@ You can watch the logs with:
 docker compose logs -f
 ```
 
-*Note: with the docker container it is not possible to get to the dedicated server console the way you can access it on Windows. This is a technical limitation, the community has not be able to overcome so far. I do no think it's likely it will ever be overcome*
+*Note: this readme assumes that you are using supplied `docker-compose.yaml` to start the server. Some parts of this readme may be inaccurate if your settings differ from the provided.*
+
+## Accessing server console
+
+To attach to the console run:
+
+```
+docker compose attach moria
+```
+
+Then hit `enter` once or twice.
+
+To detach, press:
+
+```
+CTRL+p, CTRL+q
+```
+
+This may or may not work depending on your terminal, and on whether or not you are using `ssh`. It worked for me in most scenarios.
+
+![ds01](images/ds01.png)
 
 ## Server configuration
 

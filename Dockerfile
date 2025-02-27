@@ -1,3 +1,8 @@
+FROM golang:1.24.0-bookworm AS patcher-builder
+
+COPY patcher patcher
+RUN go build -C patcher
+
 FROM ubuntu:22.04
 
 ARG DEBIAN_FRONTEND="noninteractive"
@@ -33,6 +38,7 @@ RUN ln -s /usr/games/steamcmd /usr/bin/steamcmd
 
 VOLUME /server /root/Steam
 
+COPY --from=patcher-builder /go/patcher/patcher /usr/local/bin/patcher
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /entrypoint.sh && chmod +x /usr/local/bin/patcher
 CMD ["/entrypoint.sh"]
