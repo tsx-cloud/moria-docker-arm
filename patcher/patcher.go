@@ -113,7 +113,11 @@ func main() {
 		return
 	}
 
-	binary.Write(ftarget, binary.LittleEndian, int16(3))
+	err = binary.Write(ftarget, binary.LittleEndian, int16(3))
+	if err != nil {
+		fmt.Printf("[patcher] failed to write subsystem: %v\n", err)
+		return
+	}
 
 	fmt.Println("[patcher] patched!!!")
 }
