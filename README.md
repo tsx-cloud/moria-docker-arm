@@ -58,6 +58,8 @@ This may or may not work depending on your terminal, and on whether or not you a
 
 ![ds01](images/ds01.png)
 
+*Technical note: this docker image patches the dedicated server executable [windows subsystem](https://learn.microsoft.com/en-us/windows/win32/debug/pe-format#windows-subsystem) from GUI (2) to CUI (3) in order to provide access to the server console*
+
 ## Server configuration
 
 Once the server fully started for the first time it will copy the default server settings to `./server/MoriaServerConfig.ini`, `./server/MoriaServerPermissions.txt`,`./server/MoriaServerRules.txt` files.
