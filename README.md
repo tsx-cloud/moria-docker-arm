@@ -1,4 +1,4 @@
-# Dockerized Return to Moria dedicated server in an Ubuntu 22.04 container with Wine
+# Dockerized Return to Moria dedicated server in an Ubuntu 24.04 container with Wine
 
 [![GitHub Actions](https://github.com/AndrewSav/moria-docker/actions/workflows/main.yml/badge.svg)](https://github.com/AndrewSav/moria-docker/actions)
 [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/andrewsav/moria?sort=semver)](https://hub.docker.com/r/andrewsav/moria/tags)
@@ -78,7 +78,7 @@ You can now connect to your server from the game (providing that the port forwar
 
 ## Connecting to the server
 
-In game, after clicking "Join Other World", select "Advanced Join options". Use "Direct Join" section. Enter the server IP or domain name and the port number in the format prompted on that screen, and enter password if any. Click Join Server. You can also joining via an invite code. The invite code is dumped in the container log, you can search for it with `docker compose logs | grep Invite` after the server has completed start up.
+In game, after clicking "Join Other World", select "Advanced Join options". Use "Direct Join" section. Enter the server IP or domain name and the port number in the format prompted on that screen, and enter password if any. Click Join Server. You can also join via an invite code. The invite code is dumped in the container log, you can search for it with `docker compose logs | grep Invite` after the server has completed start up.
 
 ## Updating the server
 
@@ -103,7 +103,7 @@ There are a couple of things that can break this docker image, if you edit them 
 
 ### Patcher
 
-The [patcher](patcher) folder contains a patcher used by the image in order to make attaching to the console possible. It changes a single byte in the game server executable. Naturally, during the container start up, when steam verifies the integrity of the files it would be detected and some time would be spent on the "repair". To avoid that, before the integrity check a backup of the unpatched executable kept in `server/Moria/Binaries/Win64/MoriaServer-Win64-Shipping.bak` is moved over the patched executable before the verification. After verification/update the executable is patched again before the server starts.
+The [patcher](patcher) folder contains a patcher used by the image in order to make attaching to the console possible. It changes a single byte in the game server executable. Naturally, during the container start up, when steam verifies the integrity of the files it would be detected and some time would be spent on the "repair". To avoid that, before the integrity check a backup of the unpatched executable kept in `server/Moria/Binaries/Win64/MoriaServer-Win64-Shipping.bak` is moved over the patched executable before the verification. After verification/update the executable is patched again (and the backup is taken) before the server starts.
 
 ### Health check
 
