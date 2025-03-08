@@ -1,11 +1,11 @@
-FROM golang:1.24.0-bookworm AS tools-builder
+FROM golang:1.24.1-bookworm AS tools-builder
 
 COPY patcher patcher
 RUN go build -C patcher
 COPY healthcheck healthcheck
 RUN go build -C healthcheck
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 ARG DEBIAN_FRONTEND="noninteractive"
 
@@ -19,10 +19,10 @@ RUN useradd -m steam && \
     dpkg --add-architecture i386 && \
     mkdir -pm755 /etc/apt/keyrings && \
     wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key && \
-    wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources && \
+    wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/noble/winehq-noble.sources && \
     apt-get update -y && \
     apt-get install -y --install-recommends winehq-stable && \
-    apt-get install -y gdebi-core libgl1-mesa-glx:i386 steam steamcmd winbind xvfb cabextract && \
+    apt-get install -y gdebi-core libgl1:i386 libglx-mesa0:i386 steam steamcmd winbind xvfb cabextract && \
     apt-get remove -y --purge wget software-properties-common && \
     apt-get clean autoclean && \
     apt-get autoremove -y && \
