@@ -3,7 +3,7 @@
 [![GitHub Actions](https://github.com/AndrewSav/moria-docker/actions/workflows/main.yml/badge.svg)](https://github.com/AndrewSav/moria-docker/actions)
 [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/andrewsav/moria?sort=semver)](https://hub.docker.com/r/andrewsav/moria/tags)
 
-This is not an official project and I'm not affiliated with developers or publishers of the game. Head to https://www.returntomoria.com/news-updates/dedicated-server for official information / FAQ. This image is versioned separately and the image version is not in sync with either the game or the dedicated server.
+This is not an official project and I'm not affiliated with developers or publishers of the game. Head to https://www.returntomoria.com/news-updates/dedicated-server for official information / FAQ. Join the game Discord server at https://www.returntomoria.com/community to get help. This image is versioned separately and the image version is not in sync with either the game or the dedicated server.
 
 ## Ports
 
@@ -78,11 +78,45 @@ You can now connect to your server from the game (providing that the port forwar
 
 ## Connecting to the server
 
-In game, after clicking "Join Other World", select "Advanced Join options". Use "Direct Join" section. Enter the server IP or domain name and the port number in the format prompted on that screen, and enter password if any. Click Join Server. Joining via an invite code is a bit more involved on the server side. Read "Getting the invite code" below if you want to use this option.
+In game, after clicking "Join Other World", select "Advanced Join options". Use "Direct Join" section. Enter the server IP or domain name and the port number in the format prompted on that screen, and enter password if any. Click Join Server. You can also joining via an invite code. The invite code is dumped in the container log, you can search for it with `docker compose logs | grep Invite` after the server has completed start up.
 
 ## Updating the server
 
 Restart the container. It will check steam for the newer server version on start and update if required. My preferred method of restarting is running `docker compose up -d --force-recreate` but simple `docker restart moria` would suffice. 
+
+## Additional Information
+
+### Port forwarding
+
+Detailed port forwarding guide is out of scope of this document, there are a lot of variations between routers in how this is done. However here is a few important point to keep in mind:
+
+- You need to forward port `7777` (unless you changed it to something else in `docker-compose.yaml`) on UDP protocol. Without this your server won't be accessible from the internet. You can use <https://mcheck.bat.nz/> to check if your server is accessible.
+- It is possible, that the server is accessible from the internet but not from the same (home) network where your server is in. This is called a hairpin NAT problem. Either google how to configure it on your router (if it supports it), or use local IP address for connecting to the server within the same network (as opposed to your external IP address).
+- Some internet providers employ [CGNAT](https://en.wikipedia.org/wiki/Carrier-grade_NAT). If yours does, you won't be able to make your server accessible externally, unless you and other users use a VPN or a tunneling service such as <https://playit.gg/> (this is not an endorsement, I have never used this service myself).
+
+### Editing `MoriaServerConfig.ini`
+
+There are a couple of things that can break this docker image, if you edit them in `MoriaServerConfig.ini` so please be aware:
+
+- `docker-compose.yaml` and the docker image health check, expect the server port to be `7777`. You can easily change the mapped port to any value you want in `docker-compose.yaml` (e.g. to change port to `8888` use `8888:7777/udp`) which will work, but if you change it in `MoriaServerConfig.ini` it will break both `docker-compose.yaml` and the health check. I cannot think of a case where the internal container port needs changing, since changing the external container port is so easy, but if you must, you will have to make the adjustments to both `docker-compose.yaml` and `Dockerfile` and rebuild the image.
+- If you change `[Console]` section from the default of `Enabled=true`, graceful termination and attaching to the console will stop working. The former because nothing can process `SIGINT` any more, and the latter because there is no console to attach to any longer. When graceful termination is not working, when you restart or down you container, the online session is not cleaned up which will prevent the server from starting until the session expires, which can take around 5 minutes
+
+### Patcher
+
+The [patcher](patcher) folder contains a patcher used by the image in order to make attaching to the console possible. It changes a single byte in the game server executable. Naturally, during the container start up, when steam verifies the integrity of the files it would be detected and some time would be spent on the "repair". To avoid that, before the integrity check a backup of the unpatched executable kept in `server/Moria/Binaries/Win64/MoriaServer-Win64-Shipping.bak` is moved over the patched executable before the verification. After verification/update the executable is patched again before the server starts.
+
+### Health check
+
+The [healthcheck](healthcheck) folder contains an utility, which sends a UDP message to the server and checks if it receives a response. If no response is received the health check is assumed to fail. Please refer to the `HEALTHCHECK` directive in `Dockerfile` to see how the health check is configured. This can be overridden in your `docker-compose.yaml` if desired.
+
+By and large the health check does not change how the image works. When you do `docker compose ps` or `docker ps` you will be able to see the health check result of the most recent health check. If you run `docker inspect --format='{{json .State.Health}}' moria | jq` (assuming you have `jq` installed), you will see the last few entries of health check log.
+
+I've added the health check, because the server cannot function and shuts down if the connection to Epic Online Services goes down. Unfortunately, the community seeing this happening quite often recently (several times a week). When this happens, all the Moria servers no longer work, until EOS goes back up again.
+
+Docker does not have a facility to restart unhealthy containers, but there are external solutions that can achieve the same. This is not an endorsement of any of the below.
+
+- https://github.com/willfarrell/docker-autoheal - restarts unhealthy containers
+- https://github.com/petersem/monocker - sends a notification on container change status
 
 ## About this docker image
 
