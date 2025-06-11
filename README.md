@@ -5,6 +5,8 @@
 
 This is not an official project and I'm not affiliated with developers or publishers of the game. Head to https://www.returntomoria.com/news-updates/dedicated-server for official information / FAQ. Join the game Discord server at https://www.returntomoria.com/community to get help. This image is versioned separately and the image version is not in sync with either the game or the dedicated server.
 
+Checked that it's working with 1.5.2 and Orc Hunter Pack DLC on 11 June 2025.
+
 ## Ports
 
 
@@ -86,11 +88,26 @@ Restart the container. It will check steam for the newer server version on start
 
 ## Additional Information
 
+## Changing port
+
+If you change port in `docker-compose.yaml` from `7777` to somethings else, e.g.:
+
+```yaml
+    ports:
+      - '12345:7777/udp'
+```
+
+You will also need to update `MoriaServerConfig.ini` accordingly:
+
+```ini
+AdvertisePort=12345
+```
+
 ### Port forwarding
 
 Detailed port forwarding guide is out of scope of this document, there are a lot of variations between routers in how this is done. However here is a few important point to keep in mind:
 
-- You need to forward port `7777` (unless you changed it to something else in `docker-compose.yaml`) on UDP protocol. Without this your server won't be accessible from the internet. You can use <https://mcheck.bat.nz/> to check if your server is accessible.
+- You need to forward port `7777` (unless you changed it to something else) on UDP protocol. Without this your server won't be accessible from the internet. You can use <https://mcheck.bat.nz/> to check if your server is accessible.
 - It is possible, that the server is accessible from the internet but not from the same (home) network where your server is in. This is called a hairpin NAT problem. Either google how to configure it on your router (if it supports it), or use local IP address for connecting to the server within the same network (as opposed to your external IP address).
 - Some internet providers employ [CGNAT](https://en.wikipedia.org/wiki/Carrier-grade_NAT). If yours does, you won't be able to make your server accessible externally, unless you and other users use a VPN or a tunneling service such as <https://playit.gg/> (this is not an endorsement, I have never used this service myself).
 
@@ -98,7 +115,7 @@ Detailed port forwarding guide is out of scope of this document, there are a lot
 
 There are a couple of things that can break this docker image, if you edit them in `MoriaServerConfig.ini` so please be aware:
 
-- `docker-compose.yaml` and the docker image health check, expect the server port to be `7777`. You can easily change the mapped port to any value you want in `docker-compose.yaml` (e.g. to change port to `8888` use `8888:7777/udp`) which will work, but if you change it in `MoriaServerConfig.ini` it will break both `docker-compose.yaml` and the health check. I cannot think of a case where the internal container port needs changing, since changing the external container port is so easy, but if you must, you will have to make the adjustments to both `docker-compose.yaml` and `Dockerfile` and rebuild the image.
+- `docker-compose.yaml` and the docker image health check, expect the server port to be `7777`. You can easily change the mapped port to any value you want in `docker-compose.yaml` (e.g. to change port to `12345` use `1234:7777/udp`) which will work, but if you change `ListenPort` in `MoriaServerConfig.ini` it will break both `docker-compose.yaml` and the health check. I cannot think of a case where the internal container port needs changing, since changing the external container port is so easy, but if you must, you will have to make the adjustments to both `docker-compose.yaml` and `Dockerfile` and rebuild the image.
 - If you change `[Console]` section from the default of `Enabled=true`, graceful termination and attaching to the console will stop working. The former because nothing can process `SIGINT` any more, and the latter because there is no console to attach to any longer. When graceful termination is not working, when you restart or down you container, the online session is not cleaned up which will prevent the server from starting until the session expires, which can take around 5 minutes
 
 ### Patcher
