@@ -5,7 +5,7 @@
 
 This is not an official project and I'm not affiliated with developers or publishers of the game. Head to https://www.returntomoria.com/news-updates/dedicated-server for official information / FAQ. Join the game Discord server at https://www.returntomoria.com/community to get help. This image is versioned separately and the image version is not in sync with either the game or the dedicated server.
 
-Checked that it's working with 1.5.2 and Orc Hunter Pack DLC on 11 June 2025.
+Checked that it's working with 1.5.3 on 25 June 2025.
 
 ## Ports
 
