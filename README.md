@@ -52,7 +52,7 @@ Then hit `enter` once or twice.
 To detach, press:
 
 ```
-CTRL+p, CTRL+q
+CTRL+p CTRL+q
 ```
 
 This may or may not work depending on your terminal, and on whether or not you are using `ssh`. It worked for me in most scenarios.
@@ -127,7 +127,7 @@ The [healthcheck](healthcheck) folder contains an utility, which sends a UDP mes
 
 By and large the health check does not change how the image works. When you do `docker compose ps` or `docker ps` you will be able to see the health check result of the most recent health check. If you run `docker inspect --format='{{json .State.Health}}' moria | jq` (assuming you have `jq` installed), you will see the last few entries of health check log.
 
-I've added the health check, because the server cannot function and shuts down if the connection to Epic Online Services goes down. Unfortunately, the community seeing this happening quite often recently (several times a week). When this happens, all the Moria servers no longer work, until EOS goes back up again.
+I've added the health check, because the server cannot function and shuts down if the connection to Epic Online Services goes down. When this was added, the community were seeing this happening quite often (several times a week). It seems to have improved somewhat with time, but maintenance downtime is still regular. When this happens, all the Moria servers no longer work, until EOS goes back up again.
 
 Docker does not have a facility to restart unhealthy containers, but there are external solutions that can achieve the same. This is not an endorsement of any of the below.
 
