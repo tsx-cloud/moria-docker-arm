@@ -6,11 +6,11 @@ A lot of opinion goes below, you've been warned.
 
 ### Do not use a custom image as the base image for `Dockerfile`
 
-I use operating system base images in the `Dockerfile`, not custom images, so it's easy to see what's in there at a glance. If you create images for many games, you might want to put steam and wine in a base image and use that. For the short `Dockerfile`s as this one I prefer to keep everything in a single place because it's easier to change in one place. I usually only have time to work on a one image at a time, so it is unlikely I will need to make the same change for several images.
+I use operating system base images in the `Dockerfile`, not custom images, so it's easy to see what's in there at a glance. If you create images for many games, you might want to put steam and wine in a base image and use that. For the short `Dockerfile`s as this one I prefer to keep everything in a single place because it's easier to change in one place. I usually only have time to work on one image at a time, so it is unlikely I will need to make the same change for several images.
 
 ### Do not attempt to copy the entire server configuration to env variables
 
-Some images try to expose every setting in the game configurations files through a environment variable. I do not see a lot of value in that. Editing a game config file as simple as editing `docker-compose.yaml`, at the same time synchronizing gradual settings change as game develops between the config file and environment variable seems like a wasted effort to me.
+Some images try to expose every setting in the game configurations files through an environment variable. I do not see a lot of value in that. Editing a game config file as simple as editing `docker-compose.yaml`, at the same time synchronizing gradual settings change as game develops between the config file and environment variable seems like a wasted effort to me.
 
 There are two cases where I think it's warranted to use environment variables in the discussed context:
 

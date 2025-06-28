@@ -38,7 +38,7 @@ RUN winecfg && \
 
 RUN ln -s /usr/games/steamcmd /usr/bin/steamcmd
 
-VOLUME /server /root/Steam
+VOLUME /server
 
 COPY --from=tools-builder /go/patcher/patcher /usr/local/bin/patcher
 COPY --from=tools-builder /go/healthcheck/healthcheck /usr/local/bin/healthcheck

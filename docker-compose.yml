@@ -6,7 +6,6 @@ services:
     stop_signal: SIGINT # This is for graceful termination, do not change it, unless you know what you are doing
     volumes:
       - './server:/server'
-      - './steam:/root/Steam'
     ports:
       - '7777:7777/udp'
     stdin_open: true # docker run -i, so we can issue commands to the console

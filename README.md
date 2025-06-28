@@ -22,7 +22,6 @@ In order for others to connect to your server you will most likely need to confi
 | Volume             | Container path              | Description                             |
 | -------------------- | ----------------------------- | ----------------------------------------- |
 | Steam install path | /server   | the server files are downloaded into this directory, and settings files are created here on the first start. server logs and saves are located under /server/Moria/Saved |
-| Steam cache | /root/Steam | This is where Steam credentials are cached by steam, so they do not need to be entered on each restart |
 
 ## Starting the server
 
