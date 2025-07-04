@@ -1,4 +1,4 @@
-FROM golang:1.24.1-bookworm AS tools-builder
+FROM golang:1.24.4-bookworm AS tools-builder
 
 COPY patcher patcher
 RUN go build -C patcher
@@ -12,29 +12,25 @@ ARG DEBIAN_FRONTEND="noninteractive"
 RUN useradd -m steam && \
     echo steam steam/question select "I AGREE" | debconf-set-selections && \
     echo steam steam/license note '' | debconf-set-selections && \
-    apt-get update -y && \
-    apt-get upgrade -y && \
+    apt-get update && \
+    apt-get dist-upgrade -y && \
     apt-get install -y wget software-properties-common && \
-    add-apt-repository multiverse && \
     dpkg --add-architecture i386 && \
     mkdir -pm755 /etc/apt/keyrings && \
     wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key && \
     wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/noble/winehq-noble.sources && \
+    wget -O /usr/local/bin/winetricks https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks && \
+    chmod +x /usr/local/bin/winetricks && \
     apt-get update -y && \
-    apt-get install -y --install-recommends winehq-stable && \
-    apt-get install -y gdebi-core libgl1:i386 libglx-mesa0:i386 steam steamcmd winbind xvfb cabextract && \
-    apt-get remove -y --purge wget software-properties-common && \
+    apt-get install -y --no-install-recommends steamcmd xvfb cabextract winehq-stable && \
+    winecfg && \
+    sleep 5 && \
+    xvfb-run winetricks -q vcrun2022 && \
+    rm -f /usr/local/bin/winetricks && \
+    apt-get remove -y --purge wget xvfb cabextract software-properties-common && \
     apt-get clean autoclean && \
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
-
-RUN curl -sSfLO https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks && \
-    chmod +x winetricks && \
-    mv -v winetricks /usr/local/bin
-
-RUN winecfg && \
-    sleep 5 && \
-    xvfb-run winetricks -q vcrun2022
 
 RUN ln -s /usr/games/steamcmd /usr/bin/steamcmd
 
