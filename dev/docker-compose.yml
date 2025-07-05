@@ -1,6 +1,8 @@
 services:
   moria:
-    image: tsxcloud/moria-arm:latest
+    build:
+      context: ../
+      dockerfile: Dockerfile
     container_name: moria-arm
     restart: unless-stopped
     stop_signal: SIGINT # This is for graceful termination, do not change it, unless you know what you are doing
