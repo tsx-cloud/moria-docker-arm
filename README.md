@@ -1,7 +1,8 @@
-# Dockerized Return to Moria dedicated server in an Ubuntu 24.04 container with Wine
 
-[![GitHub Actions](https://github.com/AndrewSav/moria-docker/actions/workflows/main.yml/badge.svg)](https://github.com/AndrewSav/moria-docker/actions)
-[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/andrewsav/moria?sort=semver)](https://hub.docker.com/r/andrewsav/moria/tags)
+
+> **Note:** This is a fork.  
+> The following information is taken or adapted from the original project.
+# Dockerized Return to Moria dedicated server in an Ubuntu 25.04 container with Wine. Works on ARM64
 
 This is not an official project and I'm not affiliated with developers or publishers of the game. Head to https://www.returntomoria.com/news-updates/dedicated-server for official information / FAQ. Join the game Discord server at https://www.returntomoria.com/community to get help. This image is versioned separately and the image version is not in sync with either the game or the dedicated server.
 
