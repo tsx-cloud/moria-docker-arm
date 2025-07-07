@@ -1,4 +1,30 @@
+## Base information
+The goal of this build is to enable running Return to Moria on Wine with all the latest features: staging-tkg-ntsync-wow64, on both arm64 and amd64 platforms.
 
+## docker-compose.yml
+
+```yaml
+services:
+  moria:
+    image: tsxcloud/moria-arm:latest
+    container_name: moria-arm
+    restart: unless-stopped
+    stop_signal: SIGINT # This is for graceful termination, do not change it, unless you know what you are doing
+    volumes:
+      - './server:/server'
+    ports:
+      - '7777:7777/udp'
+    stdin_open: true # docker run -i, so we can issue commands to the console
+    tty: true        # docker run -t, so we can attach to the console
+    #This is required for ntsync to work inside Docker.
+    #If ntsync support is not enabled in your Linux kernel, comment out this section, otherwise Docker Compose won't start.
+#   devices:
+#    - /dev/ntsync:/dev/ntsync
+```
+
+## Links
+You can find the Docker builds here:
+[https://hub.docker.com/r/tsxcloud/enshrouded-arm](https://hub.docker.com/r/tsxcloud/moria-arm)
 
 > **Note:** This is a fork.  
 > The following information is taken or adapted from the original project.
